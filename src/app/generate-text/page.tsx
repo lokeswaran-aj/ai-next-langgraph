@@ -1,46 +1,19 @@
 'use client'
 
-import { generateText } from '@/action/generate-text'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { ScrollArea } from '@/components/ui/scroll-area'
-import { generateId } from 'ai'
-import { Message } from 'ai/react'
+import { useGenerateText } from '@/hook/useGenerateText'
 import { Send } from 'lucide-react'
-import { useState } from 'react'
 
 const GenerateText = () => {
-  const [input, setInput] = useState('')
-  const [messages, setMessages] = useState<Message[]>([])
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    const userMessage: Message = {
-      role: 'user',
-      content: input,
-      id: generateId(),
-    }
-    setMessages((messages) => [...messages, userMessage])
-
-    const result = await generateText(input)
-    setMessages((messages) => [
-      ...messages,
-      {
-        role: 'assistant' as const,
-        content: result,
-        id: generateId(),
-      },
-    ])
-    setInput('')
-  }
-
+  const { input, setInput, messages, handleSubmit } = useGenerateText()
   return (
     <div className="flex flex-col h-[calc(100vh-4rem)] max-w-2xl mx-auto p-4">
       <h1 className="text-2xl font-bold text-center mb-4">Generate Text</h1>
       <p className="text-center mb-2">
         🤖 In this AI Chat example, the AI message is displayed once complete
-        message is generated✨ BTW, this AI does not know the previous messages.
-        🔄
+        message is generated✨
       </p>
       <ScrollArea className="flex-grow mb-4 p-4 border rounded-md">
         {messages.map((m) => (

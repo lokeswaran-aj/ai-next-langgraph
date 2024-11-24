@@ -1,7 +1,8 @@
 'use server'
-import { HumanMessage } from '@langchain/core/messages'
-import { END, MessagesAnnotation, START, StateGraph } from '@langchain/langgraph'
-import { ChatOpenAI } from '@langchain/openai'
+import MessagesAnnotation from '@/lib/messages-annotation';
+import { HumanMessage } from '@langchain/core/messages';
+import { END, START, StateGraph } from '@langchain/langgraph';
+import { ChatOpenAI } from '@langchain/openai';
 
 const llm = new ChatOpenAI({
   model: 'gpt-4o-mini',
