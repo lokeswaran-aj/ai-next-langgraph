@@ -9,6 +9,12 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@langchain/core": "^0.3.18",
+    "@langchain/langgraph": "^0.2.22",
+    "@langchain/openai": "^0.3.14",
+    "@radix-ui/react-scroll-area": "^1.2.1",
+    "@radix-ui/react-slot": "^1.1.0",
+    "ai": "^4.0.3",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "lucide-react": "^0.460.0",
