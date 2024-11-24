@@ -1,8 +1,8 @@
 'use server'
-import MessagesAnnotation from '@/lib/messages-annotation'
-import { HumanMessage } from '@langchain/core/messages'
-import { END, START, StateGraph } from '@langchain/langgraph'
+
+import { END, MessagesAnnotation, START, StateGraph } from '@langchain/langgraph'
 import { ChatOpenAI } from '@langchain/openai'
+import { Message } from 'ai/react'
 import { createStreamableValue } from 'ai/rsc'
 
 const llm = new ChatOpenAI({
@@ -25,12 +25,12 @@ const workflow = new StateGraph(MessagesAnnotation)
 
 const app = workflow.compile()
 
-export const streamText = async (input: string) => {
+export const streamText = async (history: Message[]) => {
   const stream = createStreamableValue('');
 
   (async () => {
   const response = await app.stream({
-    messages: [new HumanMessage(input)],
+    messages: history,
   }, { streamMode: "messages" });
     for await (const chunk of response) {
       const messageContent = chunk[0].content
@@ -39,5 +39,5 @@ export const streamText = async (input: string) => {
     stream.done()
   })();
   
-  return { output: stream.value }
+  return { history, output: stream.value }
 }

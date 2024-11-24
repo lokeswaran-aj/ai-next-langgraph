@@ -17,21 +17,15 @@ export const useStreamText = () => {
     }
     setMessages((messages) => [...messages, userMessage])
 
-    const { output } = await streamText(input)
+    const { history, output } = await streamText([...messages, userMessage])
     setInput('')
     const assistantMessageId = generateId()
 
-    let fullChunk = ''
+    let textContent = ''
 
-    for await (const chunk of readStreamableValue(output)) { 
-      fullChunk += chunk
-      setMessages(prev => {
-        const lastMessage = prev.at(-1)
-        if (lastMessage?.role === 'assistant') { 
-          return [...prev.slice(0,-1),{...lastMessage, content: fullChunk}]
-        }
-        return [...prev, {role: 'assistant', content: fullChunk, id: assistantMessageId}]
-      })
+    for await (const chunk of readStreamableValue(output)) {
+      textContent += chunk
+      setMessages([...history, {role: 'assistant', content: textContent, id: assistantMessageId}])
     }
   }
 
