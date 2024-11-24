@@ -15,9 +15,11 @@ export const useStreamText = () => {
       content: input,
       id: generateId(),
     }
-    setMessages((messages) => [...messages, userMessage])
 
-    const { history, output } = await streamText([...messages, userMessage])
+    const newMessages = [...messages, userMessage]
+    setMessages(newMessages)
+
+    const { history, output } = await streamText(newMessages)
     setInput('')
     const assistantMessageId = generateId()
 

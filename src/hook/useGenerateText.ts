@@ -14,18 +14,20 @@ export const useGenerateText = () => {
       content: input,
       id: generateId(),
     }
-    setMessages((messages) => [...messages, userMessage])
+    const newMessages = [...messages, userMessage]
+    setMessages(newMessages)
 
-    const result = await generateText(input)
-    setMessages((messages) => [
-      ...messages,
+    const result = await generateText(newMessages)
+
+    setInput('')
+    setMessages([
+      ...newMessages,
       {
         role: 'assistant' as const,
         content: result,
         id: generateId(),
       },
     ])
-    setInput('')
   }
 
   return {

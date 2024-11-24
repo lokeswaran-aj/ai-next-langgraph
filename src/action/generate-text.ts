@@ -1,8 +1,7 @@
 'use server'
-import MessagesAnnotation from '@/lib/messages-annotation';
-import { HumanMessage } from '@langchain/core/messages';
-import { END, START, StateGraph } from '@langchain/langgraph';
+import { END, MessagesAnnotation, START, StateGraph } from '@langchain/langgraph';
 import { ChatOpenAI } from '@langchain/openai';
+import { Message } from 'ai/react';
 
 const llm = new ChatOpenAI({
   model: 'gpt-4o-mini',
@@ -23,9 +22,10 @@ const workflow = new StateGraph(MessagesAnnotation)
 
 const app = workflow.compile()
 
-export const generateText = async (input: string) => {
+
+export const generateText = async (history: Message[]) => {
   const result = await app.invoke({
-    messages: [new HumanMessage(input)],
+    messages: history,
   })
   return result.messages[result.messages.length - 1].content
 }
