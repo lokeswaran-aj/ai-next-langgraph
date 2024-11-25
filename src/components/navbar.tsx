@@ -17,6 +17,8 @@ const Navbar = () => {
               <Link
                 className="flex items-center"
                 href="https://github.com/lokeswaran-aj/ai-next-langgraph"
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 <Github />
                 <span className="ml-2">Github</span>
