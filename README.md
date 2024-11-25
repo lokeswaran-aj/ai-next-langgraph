@@ -42,5 +42,5 @@ pnpm dev
 
 - [x] Add simple chat generation with history
 - [x] Add chat completions with history
-- [ ] Add tool calling
+- [x] Add tool calling with streaming
 - [ ] Add Generative UI with tool calling
